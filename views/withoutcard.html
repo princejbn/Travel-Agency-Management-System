@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>BookMyTrip </title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="css/mycss.css">
+
+  <link href="css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <link rel="stylesheet" type="text/css" href="css/w3.css">
+  <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/css/my-login.css">
+
+
+</head>
+
+<body class="my-login-page" style="background-image: url(img/login7.jpg);">
+
+  <% include functions %>
+
+  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-mycolor ftco-navbar-light" id="ftco-navbar">
+    <!-- <div class="container"> -->
+      <a class="navbar-brand" href="/index">BookMyTrip</a>
+     <!--  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="oi oi-menu"></span> Menu
+      </button> -->
+
+      <div class="collapse navbar-collapse" id="ftco-nav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item "><a href="/" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="/home?task=my_bookings" class="nav-link">Bookings</a></li>
+         <!--  <li class="nav-item">
+            <a class="nav-link"> </a>
+          </li> -->
+          <li class="nav-item">
+            <div class="dropdown">
+              <button onclick="myFunction()" class="dropbtn">U
+              </button>
+              <div id="myDropdown" class="dropdown-content">
+                <a href="/home">Profile</a>
+                <a href="/logout?user=<%=user%>">Logout</a>
+              </div>
+            </div>
+          </li>
+
+        </ul>
+      </div>
+    <!-- </div> -->
+  </nav>
+
+  <!-- <div class="container"> -->
+    <div class="row">
+      <div class="col-md-3 ">
+        <div class="list-group" id="list">
+
+          <a href="/home" class="list-group-item list-group-item-action active" id="1">Dashboard</a>
+          <a href="/home?task=update_profile" class="list-group-item list-group-item-action" id="2">Update Profile</a>
+          <a href="/home?task=change_password" class="list-group-item list-group-item-action" id="3">Change Password</a>
+          <a href="/home?task=my_bookings" class="list-group-item list-group-item-action" id="4">My Bookings</a>
+          <a href="/home?task=book_flight" class="list-group-item list-group-item-action" id="5">Book Flight</a>
+          <a href="/home?task=book_hotel" class="list-group-item list-group-item-action" id="6">Book Hotel</a>
+          <a href="/home?task=rent_car" class="list-group-item list-group-item-action " id="7">Rent Car</a>
+          <a href="/home?task=my_payments" class="list-group-item list-group-item-action" id="8">My Payments</a>
+          <a href="/home?task=feedback" class="list-group-item list-group-item-action" id=9">Feedback</a>
+          <a href="/logout?user=<%=user%>" class="list-group-item list-group-item-action">Logout</a>
+        </div>
+      </div>
+
+      <% if(typeof(task)!='undefined' && task=='feedback'){%>
+      <div class="col-md-9">
+        <div >
+          <div >
+            <div class="row">
+              <div class="col-md-12">
+                <h4>Submit Feedback/Complaint</h4>
+                <hr>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <form method="POST" action="/home?task=feedback">
+                  <div class="form-group row">
+                    <label for="name" class="col-4 col-form-label">Name</label>
+                    <div class="col-8">
+                      <input id="name" name="name" class="form-control here" type="text" required="required">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="name" class="col-4 col-form-label">Email</label>
+                    <div class="col-8">
+                      <input id="email" name="email" class="form-control here" type="email" required="required">
+                    </div>
+                  </div>
+                  <!-- <input type="hidden" name="task" value="book_flight"> -->
+                  <div class="form-group row">
+                    <label for="name" class="col-4 col-form-label">Subject</label>
+                    <div class="col-8">
+                      <input id="subject" name="subject" class="form-control here" type="text" required="required">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="name" class="col-4 col-form-label">Message</label>
+                    <div class="col-8">
+                      <input id="message" name="message" class="form-control here" type="text" required="required">
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <div class="offset-4 col-8">
+                      <button name="submit" value="book_flight" type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <div class="col-8">
+                      <% if(typeof(task)!='undefined' && task=='feedback' && typeof(status)!='undefined'){%>
+                      <% if(status=='success'){%>
+                      <h4>
+                        <p style='color:red'>Feedback Submitted Successful</p>
+                      </h4>
+                      <%}%>
+                      <% if(status=='failure'){%>
+                      <h4>
+                        <p style='color:red'>Unable to submit your feedback..</p>
+                      </h4>
+                      <%}%>
+                      <%}%>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <%}%>
+
+    <% if(typeof(result)!='undefined'&& (typeof(task)=='undefined' || task=='profile')) {%>
+    <div class="col-md-9">
+      <div >
+        <div >
+          <div class="row">
+            <div class="col-md-12">
+              <h4>Your Profile</h4>
+              <hr>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <form>
+                <div class="form-group row">
+                  <label for="username" class="col-4 col-form-label">User Name*</label>
+                  <div class="col-8">
+                    <p>
+                      <%=result[0].customer_username%>
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="name" class="col-4 col-form-label">Name</label>
+                  <div class="col-8">
+                    <p>
+                      <%=result[0].customer_name%>
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="mobile" class="col-4 col-form-label">Mobile</label>
+                  <div class="col-8">
+                    <p>
+                      <%=result[0].customer_mobile%>
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="email" class="col-4 col-form-label">Email</label>
+                  <div class="col-8">
+                    <p>
+                      <%=result[0].customer_email%>
+                    </p>
+                  </div>
+                </div>
+
+               <!--  <div class="form-group row">
+                  <label for="password" class="col-4 col-form-label">Password</label>
+                  <div class="col-8">
+                    <p>
+                      <%=result[0].customer_password%>
+                    </p>
+                  </div>
+                </div>
+                --> <div class="form-group row">
+                  <label for="dob" class="col-4 col-form-label">DOB</label>
+                  <div class="col-8">
+                    <p>
+                      <%=result[0].customer_dob.toYMD()%>
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="address" class="col-4 col-form-label">Address</label>
+                  <div class="col-8">
+                    <p>
+                      <%=result[0].customer_address%>
+                    </p>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <% } %>
+
+  <% if(typeof(task)!='undefined' && task=='update_profile') { %>
+  <div class="col-md-9">
+    <div >
+      <div >
+        <div class="row">
+          <div class="col-md-12">
+            <h4>Edit Your Profile</h4>
+            <hr>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <form method="POST" action="/home?task=update_profile">
+              <div class="form-group row">
+                <label for="name" class="col-4 col-form-label">Name</label>
+                <div class="col-8">
+                  <input id="name" name="name" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="mobile" class="col-4 col-form-label">Mobile</label>
+                <div class="col-8">
+                  <input id="mobile" name="mobile" placeholder="<%=result[0].customer_mobile%>" class="form-control here" type="text" required="required">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="email" class="col-4 col-form-label">Email</label>
+                <div class="col-8">
+                  <input id="email" name="email" placeholder="<%=result[0].customer_email%>" class="form-control here" type="email" required="required">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="dob" class="col-4 col-form-label">DOB</label>
+                <div class="col-8">
+                  <input type="date" id="dob" name="dob" placeholder="<%=result[0].customer_dob%>" class="form-control here" required="required">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="address" class="col-4 col-form-label">Address</label>
+                <div class="col-8">
+                  <input id="address" name="address" placeholder="<%=result[0].customer_address%>" class="form-control here" type="text" required="required">
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="offset-4 col-8">
+                  <button name="submit" value="update_profile" type="submit" class="btn btn-primary">Update My Profile</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  </div>
+  <% } %>
+
+  <%if(typeof(task)!='undefined' && task=='change_password') {%>
+  <div class="col-md-9">
+    <div >
+      <div>
+        <div class="row">
+          <div class="col-md-12">
+            <h4>Change Password</h4>
+            <hr>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <form method="POST" action="/home?task=change_password">
+              <div class="form-group row">
+                <label for="name" class="col-4 col-form-label">Old Password</label>
+                <div class="col-8">
+                  <input id="password1" name="old_password" placeholder='********' class="form-control here" type="password" required="required">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="name" class="col-4 col-form-label">New Password</label>
+                <div class="col-8">
+                  <input id="password2" name="new_password" placeholder='********' class="form-control here" type="password" required="required" onkeyup="check()">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="name" class="col-4 col-form-label">Confirm New Password</label>
+                <div class="col-8">
+                  <input id="password3" name="new_password2" placeholder='********' class="form-control here" type="password" required="required" onkeyup="check()">
+                </div> 
+              </div><span id='message'></span>
+              <div class="form-group row">
+                <div class="offset-4 col-8">
+                  <button name="submit" value="change_password" type="submit" class="btn btn-primary">Change Password</button>
+                </div>
+              </div>
+              <div class="form-group-row">
+                <p style="color:red">
+                  <%if(typeof(message)!='undefined'){%>
+                  <%=message%>
+                  <%}%>
+                </p>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  </div>
+  <%}%>
+
+  <%if(typeof(task)!='undefined' && task=='book_flight' && typeof(flights)=='undefined' && typeof(booking)=='undefined') {%>
+  <div class="col-md-9">
+    <div >
+      <div >
+        <div class="row">
+          <div class="col-md-12">
+            <h4>Search Flights</h4>
+            <hr>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <form method="POST" action="/home?task=book_flight">
+              <div class="form-group row">
+                <label for="name" class="col-4 col-form-label">Flight from</label>
+                <div class="col-8">
+                  <input id="from" name="from" class="form-control here" type="text" required="required">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="name" class="col-4 col-form-label">Flight to</label>
+                <div class="col-8">
+                  <input id="to" name="to" class="form-control here" type="text" required="required">
+                </div>
+              </div>
+              <!-- <input type="hidden" name="task" value="book_flight"> -->
+              <div class="form-group row">
+                <label for="name" class="col-4 col-form-label">Flight date</label>
+                <div class="col-8">
+                  <input id="date" name="date" class="form-control here" type="date" required="required">
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="offset-4 col-8">
+                  <button name="submit" value="book_flight" type="submit" class="btn btn-primary">Search Flight</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  </div>
+  <%}%>
+
+  <%if(typeof(task)!='undefined' && task=='book_flight' && typeof(flights)!='undefined') {%>
+
+  <div class="col-md-9">
+    <div >
+      <div >
+        <div class="w3-container">
+          <p style="text-align: center;color: red;font-size: 200%;padding: 10px"><u>Flights</u></p>
+
+          <table class="w3-table-all">
+            <%if(flights.length==0){%>
+            <tr>
+              <p style="color:red">No flights found</p>
+            </tr>
+            <%}%>
+            <%if(typeof(flights)!='undefined' && flights.length>0){%>
+            <tr class="w3-red">
+              <th>Flight_id</th>
+              <th>Flight Name</th>
+              <th>From</th>
+              <th>To</th>
+              <th>Date</th>
+              <th>Fare</th>
+              <th>Time</th>
+              <th>Book Flight</th>
+            </tr>
+            <% for(var i=0;i<flights.length;i++){ %>
+            <tr>
+              <td>
+                <%=flights[i].flight_id%>
+              </td>
+              <td>
+                <%=flights[i].flight_name%>
+              </td>
+              <td>
+                <%=flights[i].flight_from%>
+              </td>
+              <td>
+                <%=flights[i].flight_to%>
+              </td>
+              <td>
+                <%=flights[i].flight_date.toYMD()%>
+              <td>
+                <%=flights[i].flight_fare%>
+              </td>
+              <td>
+                <%=flights[i].flight_time%>
+              </td>
+              <td>
+                <button name="submit" type="submit" class="btn btn-primary"> <a href="/home?task=book_flight&id=<%=flights[i].flight_id%>">Book</a></button>
+              </td>
+            </tr>
+            <%}%>
+            <%}%>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%}%>
+
+  <%if(typeof(task)!='undefined' && task=='book_flight' && typeof(booking)!='undefined') {%>
+  <% if(booking=='success'){%>
+  <div class="col-md-9">
+    <div >
+      <div >
+        <div class="row">
+          <div class="col-md-12">
+            <% if(typeof(type)=='undefined'){%>
+            <h4>
+              <p style='color:red'>Booking Successful</p>
+            </h4>
+            <%}%>
+            <% if(typeof(type)!='undefined'){%>
+            <h4>
+              <p style='color:red'>Booking Details</p>
+            </h4>
+            <%}%>
+            <hr>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <form>
+              <div class="form-group row">
+                <label for="username" class="col-4 col-form-label">Booking_id*</label>
+                <div class="col-8">
+                  <p>
+                    <%=values[0].booking_id%>
+                  </p>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="username" class="col-4 col-form-label">Flight_id*</label>
+                <div class="col-8">
+                  <p>
+                    <%=values[0].flight_id%>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="username" class="col-4 col-form-label">Flight Name</label>
+                <div class="col-8">
+                  <p>
+                    <%=values[0].flight_name%>
+                  </p>
+                </div>
+
+              </div>
+              <div class="form-group row">
+                <label for="name" class="col-4 col-form-label">Booking Date</label>
+                <div class="col-8">
+                  <p>
+                    <%=values[0].booking_date.toYMD()%>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="mobile" class="col-4 col-form-label">Travel Date</label>
+                <div class="col-8">
+                  <p>
+                    <%=values[0].travel_date.toYMD()%>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="email" class="col-4 col-form-label">From</label>
+                <div class="col-8">
+                  <p>
+                    <%=values[0].booking_source%>
+                  </p>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="password" class="col-4 col-form-label">To</label>
+                <div class="col-8">
+                  <p>
+                    <%=values[0].booking_destination%>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="dob" class="col-4 col-form-label">Price</label>
+                <div class="col-8">
+                  <p>
+                    <%=values[0].booking_price%>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="dob" class="col-4 col-form-label">Payment_id</label>
+                <div class="col-8">
+                  <%if(values[0].payments_id==null){%>
+                  <p>Payment details not availabale
+                    <button><a href="?task=make_payment&type=flight&id=<%=values[0].booking_id%>&amt=<%=values[0].booking_price%>">Pay</a></button>
+                  </p>
+                  <%}%>
+                  <%if(values[0].payments_id!=null){%>
+                  <p>
+                    <%=values[0].payments_id%>
+                  </p>
+                  <%}%>
+                </div>
+
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <%}%>
+
+  <% if(booking=='failure'){%>
+  <p style="color:red">Booking failed..Please Try again later.Sorry for the inconvenience</p>
+  <%}%>
+  <%}%>
+
+  <%if(typeof(task)!='undefined' && task=='book_hotel' && typeof(booking)!='undefined') {%>
+  <% if(booking=='success'){%>
+  <div class="col-md-9">
+    <div >
+      <div >
+        <div class="row">
+          <div class="col-md-12">
+            <% if(typeof(type)=='undefined'){%>
+            <h4>
+              <p style='color:red'>Booking Successful</p>
+            </h4>
+            <%}%>
+            <% if(typeof(type)!='undefined'){%>
+            <h4>
+              <p style='color:red'>Booking Details</p>
+            </h4>
+            <%}%>
+            <hr>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <form>
+              <div class="form-group row">
+                <label for="username" class="col-4 col-form-label">Booking_id*</label>
+                <div class="col-8">
+                  <p>
+                    <%=values[0].booking_id%>
+                  </p>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="username" class="col-4 col-form-label">Hotel_id*</label>
+                <div class="col-8">
+                  <p>
+                    <%=values[0].hotel_id%>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="username" class="col-4 col-form-label">Hotel Name</label>
+                <div class="col-8">
+                  <p>
+                    <%=values[0].hotel_name%>
+                  </p>
+                </div>
+
+              </div>
+              <div class="form-group row">
+                <label for="name" class="col-4 col-form-label">Booking Date</label>
+                <div class="col-8">
+                  <p>
+                    <%=values[0].booking_date.toYMD()%>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="mobile" class="col-4 col-form-label">Checkin Date</label>
+                <div class="col-8">
+                  <p>
+                    <%=values[0].checkin_date.toYMD()%>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="email" class="col-4 col-form-label">Checkout Date</label>
+                <div class="col-8">
+                  <p>
+                    <%=values[0].checkout_date.toYMD()%>
+                  </p>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="password" class="col-4 col-form-label">Location</label>
+                <div class="col-8">
+                  <p>
+                    <%=values[0].hotel_location%>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="dob" class="col-4 col-form-label">Rent</label>
+                <div class="col-8">
+                  <p>
+                    <%=values[0].hotel_rent%>
+                  </p>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="dob" class="col-4 col-form-label">Payment_id</label>
+                <div class="col-8">
+                  <%if(values[0].payments_id==null){%>
+                  <p>Payment details not availabale
+                    <button><a href="?task=make_payment&type=hotel&id=<%=values[0].booking_id%>&amt=<%=values[0].booking_price%>">Pay</a></button>
+                  </p>
+                  <%}%>
+                  <%if(values[0].payments_id!=null){%>
+                  <p>
+                    <%=values[0].payments_id%>
+                  </p>
+                  <%}%>
+                </div>
+
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <%}%>
+  <%}%>
+
+  <%if(typeof(task)!='undefined' && task=='book_hotel' && typeof(hotels)!='undefined') {%>
+
+  <div class="col-md-9">
+    <div >
+      <div >
+        <div class="w3-container">
+          <p style="text-align: center;color: red;font-size: 200%;padding: 10px"><u>Hotels</u></p>
+
+          <table class="w3-table-all">
+            <%if(hotels.length==0){%>
+            <tr>
+              <p style="color:red">No Hotels found</p>
+            </tr>
+            <%}%>
+            <%if(typeof(hotels)!='undefined' && hotels.length>0){%>
+            <tr class="w3-red">
+              <th>Hotel_id</th>
+              <th>Hotel Name</th>
+              <th>Rooms</th>
+              <th>Location</th>
+              <th>Checkin Date</th>
+              <th>Checkout Date</th>
+              <th>Rent</th>
+              <th>Book</th>
+            </tr>
+            <% for(var i=0;i<hotels.length;i++){ %>
+            <tr>
+              <td>
+                <%=hotels[i].hotel_id%>
+              </td>
+              <td>
+                <%=hotels[i].hotel_name%>
+              </td>
+              <td>
+                <%=hotels[i].room_type%>
+              </td>
+              <td>
+                <%=hotels[i].hotel_location%>
+              </td>
+              <td>
+                <%=hotels[i].checkin_date.toYMD()%>
+              </td>
+              <td>
+                <%=hotels[i].checkout_date.toYMD()%>
+              </td>
+              <td>
+                <%=hotels[i].hotel_rent%>
+              </td>
+              <td>
+                <button name="submit" type="submit" class="btn btn-primary"> <a href="/home?task=book_hotel&id=<%=hotels[i].hotel_id%>">Book</a></button>
+              </td>
+            </tr>
+            <%}%>
+            <%}%>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%}%>
+
+  <%if(typeof(task)!='undefined' && task=='book_hotel' && typeof(hotels)=='undefined' && typeof(booking)=='undefined'){%>
+  <div class="col-md-9">
+    <div >
+      <div >
+        <div class="row">
+          <div class="col-md-12">
+            <h4>Search Hotels</h4>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <form method="POST" action="/home?task=book_hotel">
+              <div class="form-group row">
+                <label for="name" class="col-4 col-form-label">Location</label>
+                <div class="col-8">
+                  <input id="location" name="location" class="form-control here" placeholder="Enter City" type="text" required="required">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="name" class="col-4 col-form-label">Check_in Date</label>
+                <div class="col-8">
+                  <input id="checkin_date" name="checkin_date" class="form-control here" type="date" required="required">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="name" class="col-4 col-form-label">Check_out date</label>
+                <div class="col-8">
+                  <input id="checkout_date" name="checkout_date" class="form-control here" type="date" required="required">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="name" class="col-4 col-form-label">Number of rooms</label>
+                <div class="col-8">
+                  <input id="rooms" name="rooms" class="form-control here" placeholder="1,2,3" type="text" required="required">
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="offset-4 col-8">
+                  <button name="submit" value="book_flight" type="submit" class="btn btn-primary">Search Hotel</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  </div>
+  <%}%>
+
+  <%if(typeof(task)!='undefined' && task=='rent_car' && typeof(cars)=='undefined'  && typeof(booking)=='undefined') {%>
+  <div class="col-md-9">
+    <div >
+      <div >
+        <div class="row">
+          <div class="col-md-12">
+            <h4>Search Cars</h4>
+            <hr>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <form method="POST" action="/home?task=rent_car">
+              <div class="form-group row">
+                <label for="name" class="col-4 col-form-label">Location</label>
+                <div class="col-8">
+                  <input id="location" name="location" class="form-control here" placeholder="Enter City" type="text" required="required">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="name" class="col-4 col-form-label">Pickup Date</label>
+                <div class="col-8">
+                  <input id="pickup_date" name="pickup_date" class="form-control here" type="date" required="required">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="name" class="col-4 col-form-label">Dropoff date</label>
+                <div class="col-8">
+                  <input id="dropoff_date" name="dropoff_date" class="form-control here" type="date" required="required">
+                </div>
+              </div>
+              <!-- <div class="form-group row">
+                                <label for="name" class="col-4 col-form-label">Type</label>  
+                                  <select>
+                                      <option value="volvo">Micro</option>
+                                      <option value="saab">Mini</option>
+                                      <option value="opel">Sedan</option>
+                                      <option value="audi">Convertible</option>
+                                  </select>
+                              </div>
+ -->
+              <div class="form-group row">
+                <div class="offset-4 col-8">
+                  <button name="submit" value="book_car" type="submit" class="btn btn-primary">Get Car</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  </div>
+  <%}%>
+
+  <%if(typeof(task)!='undefined' && task=='rent_car' && typeof(cars)!='undefined') {%>
+
+  <div class="col-md-9">
+    <div >
+      <div >
+        <div class="w3-container">
+          <p style="text-align: center;color: red;font-size: 200%;padding: 10px"><u>Cars Available</u></p>
+
+          <table class="w3-table-all">
+            <%if(cars.length==0){%>
+            <tr>
+              <p style="color:red">No Cars found</p>
+            </tr>
+            <%}%>
+            <%if(typeof(cars)!='undefined' && cars.length>0){%>
+            <tr class="w3-red">
+              <th>Car_id</th>
+              <th>Car Name</th>
+              <th>Location</th>
+              <th>Pickup Date</th>
+              <th>Dropoff Date</th>
+              <th>Rent</th>
+              <th>Book</th>
+            </tr>
+            <% for(var i=0;i<cars.length;i++){ %>
+            <tr>
+              <td>
+                <%=cars[i].car_id%>
+              </td>
+              <td>
+                <%=cars[i].car_name%>
+              </td>
+              <td>
+                <%=cars[i].location%>
+              </td>
+              <td>
+                <%=cars[i].pickup_date.toYMD()%>
+              </td>
+              <td>
+                <%=cars[i].dropoff_date.toYMD()%>
+              </td>
+              <td>
+                <%=cars[i].car_rent%>
+              </td>
+              <td>
+                <button name="submit" type="submit" class="btn btn-primary"> <a href="/home?task=rent_car&id=<%=cars[i].car_id%>">Book</a></button>
+              </td>
+            </tr>
+            <%}%>
+            <%}%>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%}%>
+
+  <%if(typeof(task)!='undefined' && task=='rent_car' && typeof(booking)!='undefined') {%>
+  <% if(booking=='success'){%>
+  <div class="col-md-9">
+    <div >
+      <div >
+        <div class="row">
+          <div class="col-md-12">
+            <% if(typeof(type)=='undefined'){%>
+            <h4>
+              <p style='color:red'>Booking Successful</p>
+            </h4>
+            <%}%>
+            <% if(typeof(type)!='undefined'){%>
+            <h4>
+              <p style='color:red'>Booking Details</p>
+            </h4>
+            <%}%>
+            <hr>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <form>
+              <div class="form-group row">
+                <label for="username" class="col-4 col-form-label">Booking_id*</label>
+                <div class="col-8">
+                  <p>
+                    <%=values[0].booking_id%>
+                  </p>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="username" class="col-4 col-form-label">Car_id*</label>
+                <div class="col-8">
+                  <p>
+                    <%=values[0].car_id%>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="username" class="col-4 col-form-label">Car Name</label>
+                <div class="col-8">
+                  <p>
+                    <%=values[0].car_name%>
+                  </p>
+                </div>
+
+              </div>
+              <div class="form-group row">
+                <label for="name" class="col-4 col-form-label">Booking Date</label>
+                <div class="col-8">
+                  <p>
+                    <%=values[0].booking_date.toYMD()%>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="mobile" class="col-4 col-form-label">Pickup Date</label>
+                <div class="col-8">
+                  <p>
+                    <%=values[0].pickup_date.toYMD()%>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="email" class="col-4 col-form-label">Dropoff Date</label>
+                <div class="col-8">
+                  <p>
+                    <%=values[0].dropoff_date.toYMD()%>
+                  </p>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="password" class="col-4 col-form-label">Location</label>
+                <div class="col-8">
+                  <p>
+                    <%=values[0].location%>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="dob" class="col-4 col-form-label">Rent</label>
+                <div class="col-8">
+                  <p>
+                    <%=values[0].car_rent%>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="dob" class="col-4 col-form-label">Payment_id</label>
+                <div class="col-8">
+                  <%if(values[0].payments_id==null){%>
+                  <p>Payment details not availabale
+                    <button><a href="?task=make_payment&type=car&id=<%=values[0].booking_id%>&amt=<%=values[0].booking_price%>">Pay</a></button>
+                  </p>
+                  <%}%>
+                  <%if(values[0].payments_id!=null){%>
+                  <p>
+                    <%=values[0].payments_id%>
+                  </p>
+                  <%}%>
+                </div>
+
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <%}%>
+  <%}%>
+
+  <%if(typeof(task)!='undefined' && task=='my_payments') {%>
+
+  <div class="col-md-9">
+    <div >
+      <div >
+        <div class="w3-container">
+          <p style="text-align: center;color: red;font-size: 200%;padding: 10px"><u>Payments History</u></p>
+
+          <table class="w3-table-all">
+            <%if(typeof(payment)=='undefined' || payment.length==0){%>
+            <tr>
+              <p style="color:red">No payment details found</p>
+            </tr>
+            <%}%>
+            <%if(typeof(payment)!='undefined' && payment.length>0){%>
+            <tr class="w3-red">
+              <th>Payment_id</th>
+              <th>Payment Amount</th>
+              <th>Payment For</th>
+              <th>Payment Date</th>
+              <th>Booking_id</th>
+              <th>Booking Date</th>
+            </tr>
+            <% for(var i=0;i<payment.length;i++){ %>
+            <tr>
+              <td>
+                <a href="/home?task=my_payments&p_id=<%=payment[i].payments_id%>">
+                  <%=payment[i].payments_id%>
+                </a>
+              </td>
+              <td>
+                <%=payment[i].payments_amount%>
+              </td>
+              <td>
+                <%=payment[i].payments_for%>
+              </td>
+              <td>
+                <%=payment[i].payments_date.toYMD()%>
+              </td>
+              <td>
+                <%=payment[i].booking_id%>
+              <td>
+                <%=payment[i].booking_date.toYMD()%>
+              </td>
+            </tr>
+            <%}%>
+            <%}%>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%}%>
+
+  <%if(typeof(task)!='undefined' && task=='make_payment') {%>
+
+  <div class="col-md-9">
+    <div >
+      <div >
+        <div class="w3-container">
+
+          <table class="w3-table-all">
+
+            <div class="col-md-9">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <%if(typeof(payment)=='undefined' || payment.length==0){%>
+                      <p style='color:red'>Payment details not foundl</p>
+                      <%}%>
+
+                      <%if(typeof(payment)!='undefined' && payment.length>0){%>
+                      <% if(typeof(type)=='undefined'){%>
+                      <h4>
+                        <p style='color:red'>Payment Successful</p>
+                      </h4>
+                      <%}%>
+                      <% if(typeof(type)!='undefined'){%>
+                      <h4>
+                        <p style='color:red'>Payment Details</p>
+                      </h4>
+                      <%}%>
+
+                      <hr>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <form>
+                        <div class="form-group row">
+                          <label for="username" class="col-4 col-form-label">Payment_id*</label>
+                          <div class="col-8">
+                            <p>
+                              <%=payment[0].payments_id%>
+                            </p>
+                          </div>
+                        </div>
+
+                        <div class="form-group row">
+                          <label for="mobile" class="col-4 col-form-label">Booking_id</label>
+                          <div class="col-8">
+                            <p>
+                              <%=payment[0].booking_id%>
+                            </p>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="username" class="col-4 col-form-label">Payment Amount</label>
+                          <div class="col-8">
+                            <p>
+                              <%=payment[0].payments_amount%>
+                            </p>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="username" class="col-4 col-form-label">Payment For</label>
+                          <div class="col-8">
+                            <p>
+                              <%=payment[0].payments_for%>
+                            </p>
+                          </div>
+
+                        </div>
+                        <div class="form-group row">
+                          <label for="name" class="col-4 col-form-label">Payment Date</label>
+                          <div class="col-8">
+                            <p>
+                              <%=payment[0].payments_date.toYMD()%>
+                            </p>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="mobile" class="col-4 col-form-label">Booking Date</label>
+                          <div class="col-8">
+                            <p>
+                              <%=payment[0].booking_date.toYMD()%>
+                            </p>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <%}%>
+        </table>
+      </div>
+    </div>
+  </div>
+  </div>
+  <%}%>
+
+  <%if(typeof(task)!='undefined' && task=='my_bookings' ) {%>
+  <div class="col-md-9">
+    <div >
+      <div >
+        <div class="w3-container">
+          <p style="text-align: center;color: red;font-size: 200%;padding: 10px"><u>Booking History</u></p>
+
+          <table class="w3-table-all">
+            <%if(status=='failure'){%>
+            <tr>
+              <p style="color:red">No Bookings found</p>
+            </tr>
+            <%}%>
+            <%if(typeof(flight_bookings)!='undefined' && flight_bookings.length>0){%>
+            <p style="text-align: center;color: red;font-size: 150%;padding: 10px"><u>Flight Booking</u></p>
+            <tr class="w3-red">
+              <th>Booking_id</th>
+              <th>Booking Date</th>
+              <th>Fare</th>
+              <th>Source</th>
+              <th>Destination</th>
+              <th>Travel Date</th>
+              <th>Travel Time</th>
+              <th>Flight Name</th>
+              <th>Flight_id</th>
+              <th>Payment_id</th>
+            </tr>
+            <% for(var i=0;i<flight_bookings.length;i++){ %>
+            <tr>
+              <td>
+                <a href="/home?task=book_flight&id=<%=flight_bookings[i].flight_id%>&b_id=<%=flight_bookings[i].booking_id%>">
+                  <%=flight_bookings[i].booking_id%>
+                </a>
+              </td>
+              <td>
+                <%=flight_bookings[i].booking_date.toYMD()%>
+              </td>
+              <td>
+                <%=flight_bookings[i].booking_price%>
+              </td>
+              <td>
+                <%=flight_bookings[i].booking_source%>
+              </td>
+              <td>
+                <%=flight_bookings[i].booking_destination%>
+              </td>
+              <td>
+                <%=flight_bookings[i].travel_date.toYMD()%>
+              </td>
+              <td>
+                <%=flight_bookings[i].flight_time%>
+              </td>
+              <td>
+                <%=flight_bookings[i].flight_name%>
+              </td>
+              <td>
+                <%=flight_bookings[i].flight_id%>
+              </td>
+              <td>
+                <%=flight_bookings[i].payments_id%>
+              </td>
+            </tr>
+            <%}%>
+            <%}%>
+          </table>
+
+          <table class="w3-table-all">
+            <%if(status=='failure'){%>
+            <tr>
+              <p style="color:red">No Bookings found</p>
+            </tr>
+            <%}%>
+            <%if(typeof(hotel_bookings)!='undefined' && hotel_bookings.length>0){%>
+            <p style="text-align: center;color: red;font-size: 150%;padding: 10px"><u>Hotel Booking</u></p>
+            <tr class="w3-red">
+              <th>Booking_id</th>
+              <th>Booking Date</th>
+              <th>Rent</th>
+              <th>Place</th>
+              <th>Check_in Date</th>
+              <th>Check_out Date</th>
+              <th>Hotel Name</th>
+              <th>Payment_id</th>
+            </tr>
+            <% for(var i=0;i<hotel_bookings.length;i++){ %>
+            <tr>
+              <td>
+                <a href="/home?task=book_hotel&id=<%=hotel_bookings[i].hotel_id%>&b_id=<%=hotel_bookings[i].booking_id%>">
+                  <%=hotel_bookings[i].booking_id%>
+                </a>
+              </td>
+              <td>
+                <%=hotel_bookings[i].booking_date.toYMD()%>
+              </td>
+              <td>
+                <%=hotel_bookings[i].hotel_rent%>
+              </td>
+              <td>
+                <%=hotel_bookings[i].hotel_location%>
+              </td>
+              <td>
+                <%=hotel_bookings[i].checkin_date.toYMD()%>
+              </td>
+              <td>
+                <%=hotel_bookings[i].checkout_date.toYMD()%>
+              <td>
+                <%=hotel_bookings[i].hotel_name%>
+              </td>
+              <td>
+                <%=hotel_bookings[i].payments_id%>
+              </td>
+            </tr>
+            <%}%>
+            <%}%>
+          </table>
+
+          <table class="w3-table-all">
+            <%if(status=='failure'){%>
+            <tr>
+              <p style="color:red">No Bookings found</p>
+            </tr>
+            <%}%>
+            <%if(typeof(car_bookings)!='undefined' && car_bookings.length>0){%>
+            <p style="text-align: center;color: red;font-size: 150%;padding: 10px"><u>Car Booking</u></p>
+            <tr class="w3-red">
+              <th>Booking_id</th>
+              <th>Booking Date</th>
+              <th>Rent</th>
+              <th>Location</th>
+              <th>Pickup Date</th>
+              <th>Dropoff Date</th>
+              <th>Car Name</th>
+              <th>Payment_id</th>
+            </tr>
+            <% for(var i=0;i<car_bookings.length;i++){ %>
+            <tr>
+              <td>
+                <a href="/home?task=rent_car&id=<%=car_bookings[i].car_id%>&b_id=<%=car_bookings[i].booking_id%>">
+                  <%=car_bookings[i].booking_id%>
+                </a>
+              </td>
+              <td>
+                <%=car_bookings[i].booking_date.toYMD()%>
+              </td>
+              <td>
+                <%=car_bookings[i].car_rent%>
+              </td>
+              <td>
+                <%=car_bookings[i].location%>
+              </td>
+              <td>
+                <%=car_bookings[i].pickup_date.toYMD()%>
+              </td>
+              <td>
+                <%=car_bookings[i].dropoff_date.toYMD()%>
+              <td>
+                <%=car_bookings[i].car_name%>
+              </td>
+              <td>
+                <%=car_bookings[i].payments_id%>
+              </td>
+            </tr>
+            <%}%>
+            <%}%>
+          </table>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <%}%>
+
+  </div>
+
+ <footer class="ftco-footer ftco-bg-dark ftco-section">
+      <div ><!-- class="container" -->
+        <div class="row mb-5">
+          <!-- <div class="col-md">
+            <div class="ftco-footer-widget mb-4">
+              <h2 class="ftco-heading-2">Voyage Fellow Tourist</h2>
+              <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+            </div>
+          </div> -->
+          <div class="col-md">
+             <div class="ftco-footer-widget mb-4">
+              <h2 class="ftco-heading-2">Book Now</h2>
+              <ul class="list-unstyled">
+                <li><a href="/flights" class="py-2 d-block">Flight</a></li>
+                <li><a href="/hotels" class="py-2 d-block">Hotels</a></li>
+                <!-- <li><a href="#" class="py-2 d-block">Tour</a></li> -->
+                <li><a href="/cars" class="py-2 d-block">Car Rent</a></li>
+                <!-- <li><a href="#" class="py-2 d-block">Beach &amp; Resorts</a></li>
+                <li><a href="#" class="py-2 d-block">Mountains</a></li>
+                <li><a href="#" class="py-2 d-block">Cruises</a></li> -->
+              </ul>
+            </div>
+          </div>
+          <div class="col-md">
+             <div class="ftco-footer-widget mb-4">
+              <h2 class="ftco-heading-2">Top Deals</h2>
+              <ul class="list-unstyled">
+                <li><a href="/hotels" class="py-2 d-block">Hotel Deals</a></li>
+                <li><a href="/cars" class="py-2 d-block">Car Deals</a></li>
+                <li><a href="/flights" class="py-2 d-block">Flight Deals</a></li>
+             <!--    <li><a href="#" class="py-2 d-block">Boracay Beach &amp; Resorts</a></li>
+                <li><a href="#" class="py-2 d-block">Beach &amp; Resorts</a></li>
+                <li><a href="#" class="py-2 d-block">Fuente Villa</a></li>
+                <li><a href="#" class="py-2 d-block">Japan Tours</a></li>
+                <li><a href="#" class="py-2 d-block">Philippines Tours</a></li>
+              --> </ul>
+            </div>
+          </div>
+          <div class="col-md">
+             <div class="ftco-footer-widget mb-4">
+              <h2 class="ftco-heading-2">Contact Information</h2>
+                <ul class="list-unstyled">
+                <li><a href="/"  class="py-2 d-block">SJB Institute Of Technology</a></li>
+                <li><a href="/" class="py-2 d-block">+ 1235 2355 98</a></li>
+                <li><a href="/" class="py-2 d-block">info@bookmytrip.com</a></li>
+                <li><a href="/" class="py-2 d-block">support@bookmytrip.com</a></li>
+              </ul>
+            </div>
+          </div>
+          <!-- <div class="col-md">
+            <div class="ftco-footer-widget mb-4">
+              <ul class="ftco-footer-social list-unstyled float-md-right float-lft">
+                <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
+                <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
+                <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
+              </ul>
+            </div>
+          </div> -->
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-center">
+
+            <p>Copyright &copy;<script>document.write(new Date().getFullYear());</script> </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+     
+
+</body>
+<script>
+  // document.write(new Date().getFullYear());
+
+
+  var check = function() {
+  if (document.getElementById('password2').value ==
+    document.getElementById('password3').value) {
+    document.getElementById('message').style.color = 'green';
+    document.getElementById('message').innerHTML = 'matching';
+  } else {
+    document.getElementById('message').style.color = 'red';
+    document.getElementById('message').innerHTML = 'not matching';
+  }
+}
+
+  function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+  }
+
+  // Close the dropdown if the user clicks outside of it
+  window.onclick = function(event) {
+    if (!event.target.matches('.dropbtn')) {
+
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+      }
+    }
+  }
+</script>
+</html>

@@ -1,0 +1,40 @@
+			<!DOCTYPE html>
+			<html lang="en">
+				  <head>
+				    <title><a href="database">BookMyTrip Database</a></title>
+				    <meta charset="utf-8">
+				    <link rel="stylesheet" type="text/css" href="css/my-login.css">
+				    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+				    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+                    <link rel="stylesheet" type="text/css" href="css/w3.css">
+                    <link rel="stylesheet"  href="css/font-awesome.min.css">
+
+                    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+	                <link rel="stylesheet" type="text/css" href="css/my-login.css">
+
+				</head>
+				<body>
+
+		 	       <p style="text-align: center;color: red;font-size: 200%;padding: 10px"><u>Query Database</u></p>
+        			<div class="row justify-content-md-center h-100"> 		
+           			<div class="card-wrapper">
+		         <div class="card fat">
+				 <div class="card-body">
+		         <form method="POST" action="/query" >
+				 <label for="query">Enter Query</label>
+			    <input id="query" type="text" class="form-control" name="query"  required autofocus>
+			      <button type="Submit" class="btn btn-primary btn-block">
+										Search
+								</button>	</form>
+							</div></div>
+
+				<% if(typeof(result_query)!='undefined'){ %>
+				<p><%=result_query%></p></div>
+				<%}%></div>
+					
+
+				</body>
+				</html>

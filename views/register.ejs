@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="author" content="Kodinger">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>My Login Page &mdash; Bootstrap 4 Login Page Snippet</title>
+	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/my-login.css">
+</head>
+<body class="my-login-page" style="background-image: url(img/login7.jpg);">
+	<section class="h-100">
+		<div class="container h-100">
+			<div class="row justify-content-md-center h-100">
+				<div class="card-wrapper">
+					<div class="brand">
+						<a href="/index"><img src="img/logo.jpg" alt="bootstrap 4 login page"></a>
+					</div>
+					<div class="card fat">
+						<div class="card-body">
+							<% if(typeof(user)==undefined || user==''){ %>
+							<h4 class="card-title">Register</h4>
+							<form method="POST" action="/login">
+								<class="my-login-validation" novalidate="">
+								  <div class="form-group">
+									<label for="name">Name</label>
+									<input id="name" type="text" class="form-control" name="name" maxlength="30" required autofocus>
+									<div class="invalid-feedback">
+										What's your name?
+									</div>
+								</div>
+
+
+								<div class="form-group">
+									<label for="password">Gender</label>
+									<select name="gender" class="form-control" required>
+										<option value="M">Male</option>
+										<option value="F">Female</option>
+										<option value="T">Transgender</option>
+									</select>
+								</div>
+
+
+								<div class="form-group">
+									<label for="dob">DOB</label>
+									<input id="dob" type="date" class="form-control" name="dob" maxlength="10" required>
+									<div class="invalid-feedback">
+										Your DOB is invalid
+									</div>
+								</div>
+
+								<input type='hidden' name="task" value="create"/>
+
+								<div class="form-group">
+									<label for="email">E-Mail Address</label>
+									<input id="email" type="email" class="form-control" name="email" maxlength="50" required>
+									<div class="invalid-feedback">
+										Your email is invalid
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="mobile">Mobile No.</label>
+									<input id="mobile" type="mobile" class="form-control" name="mobile" maxlength="10" required>
+									<div class="invalid-feedback">
+										Your mobile no is invalid
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="username">Username</label>
+									<input id="username" type="text" class="form-control" name="username" maxlength="15" required>
+									<div class="invalid-feedback">
+									   Username is taken
+									</div>
+								</div>
+
+
+
+								<div class="form-group">
+									<label for="password">Password</label>
+									<input id="password" type="password" class="form-control" name="password" maxlength="20" required data-eye>
+									<div class="invalid-feedback">
+										Password is required
+									</div>
+								</div>
+
+								
+
+								
+								<div class="form-group">
+									<label for="address">Address</label>
+									<input id="address" type="text" class="form-control" name="address" maxlength="100" required>
+									<div class="invalid-feedback">
+										Your Address is invalid
+									</div>
+								</div>
+
+								
+
+
+
+								<div class="form-group">
+									<div class="custom-checkbox custom-control">
+										<input type="checkbox" name="agree" id="agree" class="custom-control-input" required="">
+										<label for="agree" class="custom-control-label">I agree to the <a href="#">Terms and Conditions</a></label>
+										<div class="invalid-feedback">
+											You must agree with our Terms and Conditions
+										</div>
+									</div>
+								</div>
+
+								<div class="form-group m-0">
+									<button type="submit" class="btn btn-primary btn-block">
+										Register
+									</button>
+								</div>
+								<div class="mt-4 text-center">
+									Already have an account? <a href="/login">Login</a>
+								</div>
+								<% } %>
+							</form>
+
+							<% if(typeof(user)!=undefined && user!='') { %>
+							<h3 class="card-title">Profile</h3>
+
+							<p>Name: <%= result[0].customer_name %></p>
+							<p>Username: <%= result[0].customer_username %></p>
+							<% } %>
+						</div>
+					</div>
+					<div class="footer">
+						Copyright &copy; 2018 &mdash; BookMyTrip</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script src="js/jquery.min.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<script src="js/my-login.js"></script>
+</body>
+<script>
+	function getEmail() {
+	window.location.href="/login?q=status&q2=create&email="+
+    document.getElementById('email').value;
+    }
+</script>
+</html>

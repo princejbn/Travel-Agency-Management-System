@@ -1,0 +1,18 @@
+Delimiter $$
+create trigger flight_seats_full
+before update on flight
+for each row
+if new.flight_seatsfree<1 then set new.status="FULL";
+END if;
+End $$
+Delimiter ;
+
+
+
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_flights`()
+begin
+select * from flight where status="AVAILABLE" ORDER BY flight_fare LIMIT 6;
+end
+
+

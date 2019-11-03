@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title><a href="database">BookMyTrip Database</a></title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="css/my-login.css">
+  <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" type="text/css" href="css/w3.css">
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/my-login.css">
+
+</head>
+
+<body>
+  <% include functions %>
+
+  <p style="text-align: center;color: red;font-size: 250%"><u>BookMyTripDatabase</u></p> <a href="/logout" class="btn btn-default">Logout</a>
+
+
+  <div class="w3-container">
+    <table id="outer_table">
+      <tr>
+        <td>
+          <% if(typeof(result)!='undefined'){%>
+          <p style="text-align: center;color: red;font-size: 200%;padding: 10px"><u>Customer Table</u></p>
+
+          <div id="display_customer" class="w3-container city">
+            <table class="w3-table-all" id="login_table">
+              <tr>
+                <div class="w3-bar w3-black">
+                  <button class="w3-bar-item w3-button" onclick="openCity('display_customer','city')">Display</button>
+                  <button class="w3-bar-item w3-button" onclick="openCity('insert_customer','city')">Add</button>
+                </div>
+              </tr>
+              <tr class="w3-red">
+                <th>Id</th>
+                <th>Name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Password</th>
+                <th>Address</th>
+                <th>DOB</th>
+                <th>Remove</th>
+              </tr>
+              <% for(var i=0;i<result[0].length;i++){ %>
+              <tr>
+                <td>
+                  <%=result[0][i].customer_id%>
+                </td>
+                <td>
+                  <%=result[0][i].customer_name%>
+                </td>
+                <td>
+                  <%=result[0][i].customer_username%>
+                </td>
+                <td>
+                  <%=result[0][i].customer_email%>
+                </td>
+                <td>
+                  <%=result[0][i].customer_mobile%>
+                </td>
+                <td>
+                  <%=result[0][i].customer_password%>
+                </td>
+                <td>
+                  <%=result[0][i].customer_address%>
+                </td>
+                <td>
+                  <%=result[0][i].customer_dob.toYMD()%>
+                </td>
+                <td><a href="?task=delete_customer&email=<%=result[0][i].customer_email%>">&#10006</a></td>
+              </tr>
+              <%}%>
+            </table>
+
+          </div>
+
+          <div id="insert_customer" class="w3-container city" style="display:none">
+
+            <div class="w3-bar w3-black">
+              <button class="w3-bar-item w3-button" onclick="openCity('display_customer','city')">Display</button>
+              <button class="w3-bar-item w3-button" onclick="openCity('insert_customer'.'city')">Add</button>
+            </div>
+
+            <div class="col-md-9">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <h4>Add User</h4>
+                      <hr>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <form method="POST" action="/database">
+                        <div class="form-group row">
+                          <label for="username" class="col-4 col-form-label">User Name*</label>
+                          <div class="col-8">
+                            <input id="name" name="username" maxlength="15" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="name" class="col-4 col-form-label">Name</label>
+                          <div class="col-8">
+                            <input id="name" name="name" maxlength="30" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="mobile" class="col-4 col-form-label">Mobile</label>
+                          <div class="col-8">
+                            <input id="name" name="mobile" maxlength="10" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="email" class="col-4 col-form-label">Email</label>
+                          <div class="col-8">
+                            <input id="name" name="email" maxlength="50" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                          </div>
+                        </div>
+
+                        <div class="form-group row">
+                          <label for="password" class="col-4 col-form-label">Password</label>
+                          <div class="col-8">
+                            <input id="name" name="password" maxlength="20" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="dob" class="col-4 col-form-label">DOB</label>
+                          <div class="col-8">
+                            <input id="name" name="dob" placeholder="<%=result[0].customer_name%>" class="form-control here" type="date" required="required">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="address" class="col-4 col-form-label">Address</label>
+                          <div class="col-8">
+                            <input id="name" name="address" maxlength="100" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                          </div>
+                        </div>
+                        <input type="hidden" name="task" value="insert_customer">
+                        <div class="form-group row">
+                          <div class="offset-4 col-8">
+                            <button name="submit" type="submit" class="btn btn-primary">Add User</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <table id="outer_table">
+              <tr>
+                <td>
+                  <p style="text-align: center;color: red;font-size: 200%;padding: 10px"><u>Flights Table</u></p>
+
+                  <div id="display_flight" class="w3-container city2">
+                    <table class="w3-table-all" id="login_table">
+                      <tr>
+                        <div class="w3-bar w3-black">
+                          <button class="w3-bar-item w3-button" onclick="openCity('display_flight'.'city2')">Display</button>
+                          <button class="w3-bar-item w3-button" onclick="openCity('insert_flight','city2')">Add</button>
+                        </div>
+                      </tr>
+                      <tr class="w3-red">
+                        <th>Flight_id</th>
+                        <th>Flight Name</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Flight Fare</th>
+                        <th>Flight from</th>
+                        <th>Flight to</th>
+                        <th>Flight class</th>
+                        <th>Seats_free</th>
+                        <th>Remove</th>
+                      </tr>
+                      <% for(var i=0;i<result[1].length;i++){ %>
+                      <tr>
+                        <td>
+                          <%=result[1][i].flight_id%>
+                        </td>
+                        <td>
+                          <%=result[1][i].flight_name%>
+                        </td>
+                        <td>
+                          <%=result[1][i].flight_date.toYMD()%>
+                        </td>
+                        <td>
+                          <%=result[1][i].flight_time%>
+                        </td>
+                        <td>
+                          <%=result[1][i].flight_fare%>
+                        </td>
+                        <td>
+                          <%=result[1][i].flight_from%>
+                        </td>
+                        <td>
+                          <%=result[1][i].flight_to%>
+                        </td>
+                        <td>
+                          <%=result[1][i].flight_class%>
+                        </td>
+                        <td>
+                          <%=result[1][i].flight_seatsfree%>
+                        </td>
+                        <td><a href="?task=delete_flight&id=<%=result[1][i].flight_id%>">&#10006</a></td>
+                      </tr>
+                      <%}%>
+                    </table>
+
+                  </div>
+
+                  <div id="insert_flight" class="w3-container city2" style="display:none">
+
+                    <div class="w3-bar w3-black">
+                      <button class="w3-bar-item w3-button" onclick="openCity('display_flight','city2')">Display</button>
+                      <button class="w3-bar-item w3-button" onclick="openCity('insert_flight','city2')">Add</button>
+                    </div>
+
+                    <div class="col-md-9">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <h4>Add Flight</h4>
+                              <hr>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12">
+                              <form method="POST" action="/database">
+                                <div class="form-group row">
+                                  <label for="username" class="col-4 col-form-label">Flight Name*</label>
+                                  <div class="col-8">
+                                    <input id="name" maxlength="30" name="fname" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                  </div>
+                                </div>
+                                <div class="form-group row">
+                                  <label for="name" class="col-4 col-form-label">Flight fare</label>
+                                  <div class="col-8">
+                                    <input id="name" name="ffare"  placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                  </div>
+                                </div>
+                                <div class="form-group row">
+                                  <label for="mobile" class="col-4 col-form-label">Flight from</label>
+                                  <div class="col-8">
+                                    <input id="name" name="ffrom" maxlength="30" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                  </div>
+                                </div>
+                                <div class="form-group row">
+                                  <label for="email" class="col-4 col-form-label">Flight to</label>
+                                  <div class="col-8">
+                                    <input id="name" name="fto" maxlength="30" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                  </div>
+                                </div>
+
+                                <div class="form-group row">
+                                  <label for="password" class="col-4 col-form-label">Flight class</label>
+                                  <div class="col-8">
+                                    <input id="name" name="fclass" maxlength="25" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                  </div>
+                                </div>
+                                <div class="form-group row">
+                                  <label for="dob" class="col-4 col-form-label">Flight_seatsfree</label>
+                                  <div class="col-8">
+                                    <input id="name" name="f_seatsfree" maxlength="11" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                  </div>
+                                </div>
+                                <div class="form-group row">
+                                  <label for="address" class="col-4 col-form-label">Flight Date</label>
+                                  <div class="col-8">
+                                    <input id="name" name="fdate"  placeholder="<%=result[0].customer_name%>" class="form-control here" type="date" required="required">
+                                  </div>
+                                </div>
+
+                                <div class="form-group row">
+                                  <label for="address" class="col-4 col-form-label">Flight Time</label>
+                                  <div class="col-8">
+                                    <input id="name" name="ftime"  placeholder="<%=result[0].customer_name%>" class="form-control here" type="time" required="required">
+                                  </div>
+                                </div>
+                                <input type="hidden" name="task" value="insert_flight">
+                                <div class="form-group row">
+                                  <div class="offset-4 col-8">
+                                    <button name="submit"  type="submit" class="btn btn-primary">Add Flight</button>
+                                  </div>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <table id="outer_table">
+                      <tr>
+                        <td>
+                          <p style="text-align: center;color: red;font-size: 200%;padding: 10px"><u>Hotels Table</u></p>
+
+                          <div id="display_hotel" class="w3-container city3">
+                            <table class="w3-table-all" id="login_table">
+                              <tr>
+                                <div class="w3-bar w3-black">
+                                  <button class="w3-bar-item w3-button" onclick="openCity('display_hotel'.'city3')">Display</button>
+                                  <button class="w3-bar-item w3-button" onclick="openCity('insert_hotel','city3')">Add</button>
+                                </div>
+                              </tr>
+                              <tr class="w3-red">
+                                <th>Hotel_id</th>
+                                <th>Name</th>
+                                <th>Room_type</th>
+                                <th>Rent</th>
+                                <th>Address</th>
+                                <th>Mobile</th>
+                                <th>Rooms_free</th>
+                                <th>Checkin_date</th>
+                                <th>Checkout_date</th>
+                                <th>Location</th>
+                                <th>Remove</th>
+                              </tr>
+                              <% for(var i=0;i<result[2].length;i++){ %>
+                              <tr>
+                                <td>
+                                  <%=result[2][i].hotel_id%>
+                                </td>
+                                <td>
+                                  <%=result[2][i].hotel_name%>
+                                </td>
+                                <td>
+                                  <%=result[2][i].room_type%>
+                                </td>
+                                <td>
+                                  <%=result[2][i].hotel_rent%>
+                                </td>
+                                <td>
+                                  <%=result[2][i].hotel_address%>
+                                </td>
+                                <td>
+                                  <%=result[2][i].hotel_mobile%>
+                                </td>
+                                <td>
+                                  <%=result[2][i].hotel_roomsfree%>
+                                </td>
+                                <td>
+                                  <%=result[2][i].checkin_date.toYMD()%>
+                                </td>
+                                <td>
+                                  <%=result[2][i].checkout_date.toYMD()%>
+                                </td>
+                                <td>
+                                  <%=result[2][i].hotel_location%>
+                                </td>
+                                <td><a href="?task=delete_hotel&id=<%=result[2][i].hotel_id%>">&#10006</a></td>
+                              </tr>
+                              <%}%>
+                            </table>
+
+                          </div>
+
+                          <div id="insert_hotel" class="w3-container city3" style="display:none">
+
+                            <div class="w3-bar w3-black">
+                              <button class="w3-bar-item w3-button" onclick="openCity('display_hotel','city3')">Display</button>
+                              <button class="w3-bar-item w3-button" onclick="openCity('insert_hotel','city3')">Add</button>
+                            </div>
+
+                            <div class="col-md-9">
+                              <div class="card">
+                                <div class="card-body">
+                                  <div class="row">
+                                    <div class="col-md-12">
+                                      <h4>Add Hotel</h4>
+                                      <hr>
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-md-12">
+                                      <form method="POST" action="/database">
+                                        <div class="form-group row">
+                                          <label for="username" class="col-4 col-form-label">Hotel Name*</label>
+                                          <div class="col-8">
+                                            <input id="name" name="hname" maxlength="50" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                          </div>
+                                        </div>
+                                        <div class="form-group row">
+                                          <label for="name" class="col-4 col-form-label">Room Type</label>
+                                          <div class="col-8">
+                                            <input id="name" name="rtype" maxlength="30" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                          </div>
+                                        </div>
+                                        <div class="form-group row">
+                                          <label for="mobile" class="col-4 col-form-label">Rent</label>
+                                          <div class="col-8">
+                                            <input id="name" name="hrent" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                          </div>
+                                        </div>
+                                        <div class="form-group row">
+                                          <label for="email" class="col-4 col-form-label">Address</label>
+                                          <div class="col-8">
+                                            <input id="name" name="haddress" maxlength="100" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                          </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                          <label for="password" class="col-4 col-form-label">Mobile</label>
+                                          <div class="col-8">
+                                            <input id="name" name="hmobile" maxlength="10" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                          </div>
+                                        </div>
+                                        <div class="form-group row">
+                                          <label for="dob" class="col-4 col-form-label">Rooms_free</label>
+                                          <div class="col-8">
+                                            <input id="name" name="h_roomsfree" maxlength="10" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                          </div>
+                                        </div>
+                                        <div class="form-group row">
+                                          <label for="address" class="col-4 col-form-label">Checkin_date</label>
+                                          <div class="col-8">
+                                            <input id="name" name="h_checkin" placeholder="<%=result[0].customer_name%>" class="form-control here" type="date" required="required">
+                                          </div>
+                                        </div>
+                                          <div class="form-group row">
+                                          <label for="address" class="col-4 col-form-label">Checkout_date</label>
+                                          <div class="col-8">
+                                            <input id="name" name="h_checkout" placeholder="<%=result[0].customer_name%>" class="form-control here" type="date" required="required">
+                                          </div>
+                                        </div>
+                                          <div class="form-group row">
+                                          <label for="address" class="col-4 col-form-label">Location</label>
+                                          <div class="col-8">
+                                            <input id="name" name="h_location" maxlength="30" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                          </div>
+                                        </div>
+                                        <input type="hidden" name="task" value="insert_hotel">
+                                        <div class="form-group row">
+                                          <div class="offset-4 col-8">
+                                            <button  name="submit" type="submit" class="btn btn-primary">Add Hotel</button>
+                                          </div>
+                                        </div>
+                                      </form>
+                                    </div>
+                                  </div>
+
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div>
+                            <table id="outer_table">
+                              <tr>
+                                <td>
+                                  <p style="text-align: center;color: red;font-size: 200%;padding: 10px"><u>Car Table</u></p>
+
+                                  <div id="display_car" class="w3-container city4">
+                                    <table class="w3-table-all" id="login_table">
+                                      <tr>
+                                        <div class="w3-bar w3-black">
+                                          <button class="w3-bar-item w3-button" onclick="openCity('display_car'.'city4')">Display</button>
+                                          <button class="w3-bar-item w3-button" onclick="openCity('insert_car','city4')">Add</button>
+                                        </div>
+                                      </tr>
+                                      <tr class="w3-red">
+                                        <th>Car_id</th>
+                                        <th>Name</th>
+                                        <th>Car_brand</th>
+                                        <th>Car_rent</th>
+                                        <th>Pickup_date</th>
+                                        <th>Dropoff_date</th>
+                                        <th>Location</th>
+                                        <th>Cars_available</th>
+                                        <th>Remove</th>
+                                      </tr>
+                                      <% for(var i=0;i<result[3].length;i++){ %>
+                                      <tr>
+                                        <td>
+                                          <%=result[3][i].car_id%>
+                                        </td>
+                                        <td>
+                                          <%=result[3][i].car_name%>
+                                        </td>
+                                        <td>
+                                          <%=result[3][i].car_brand%>
+                                        </td>
+                                        <td>
+                                          <%=result[3][i].car_rent%>
+                                        </td>
+                                        <td>
+                                          <%=result[3][i].pickup_date.toYMD()%>
+                                        </td>
+                                        <td>
+                                          <%=result[3][i].dropoff_date.toYMD()%>
+                                        </td>
+                                        <td>
+                                          <%=result[3][i].location%>
+                                        </td>
+                                        <td>
+                                          <%=result[3][i].cars_available%>
+                                        </td>
+                                        <td><a href="?task=delete_car&id=<%=result[3][i].car_id%>">&#10006</a></td>
+                                      </tr>
+                                      <%}%>
+                                    </table>
+
+                                  </div>
+
+                                  <div id="insert_car" class="w3-container city4" style="display:none">
+
+                                    <div class="w3-bar w3-black">
+                                      <button class="w3-bar-item w3-button" onclick="openCity('display_car','city4')">Display</button>
+                                      <button class="w3-bar-item w3-button" onclick="openCity('insert_car,'city4')">Add</button>
+                                    </div>
+
+                                    <div class="col-md-9">
+                                      <div class="card">
+                                        <div class="card-body">
+                                          <div class="row">
+                                            <div class="col-md-12">
+                                              <h4>Add Car</h4>
+                                              <hr>
+                                            </div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="col-md-12">
+                                              <form method="POST" action="/database">
+                                                <div class="form-group row">
+                                                  <label for="username" class="col-4 col-form-label">Car Name*</label>
+                                                  <div class="col-8">
+                                                    <input id="name" name="cname" maxlength="20" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                                  </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                  <label for="name" class="col-4 col-form-label">Car Brand</label>
+                                                  <div class="col-8">
+                                                    <input id="name" name="cbrand" maxlength="30" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                                  </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                  <label for="mobile" class="col-4 col-form-label">Car_rent</label>
+                                                  <div class="col-8">
+                                                    <input id="name" name="crent"  placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                                  </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                  <label for="email" class="col-4 col-form-label">Pickup_date</label>
+                                                  <div class="col-8">
+                                                    <input id="name" name="pickup_date" placeholder="<%=result[0].customer_name%>" class="form-control here" type="date" required="required">
+                                                  </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                  <label for="password" class="col-4 col-form-label">Dropoff_date</label>
+                                                  <div class="col-8">
+                                                    <input id="name" name="dropoff_date" placeholder="<%=result[0].customer_name%>" class="form-control here" type="date" required="required">
+                                                  </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                  <label for="dob" class="col-4 col-form-label">Location</label>
+                                                  <div class="col-8">
+                                                    <input id="name" name="location" maxlength="30" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                                  </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                  <label for="address" class="col-4 col-form-label">Cars_available</label>
+                                                  <div class="col-8">
+                                                    <input id="name" name="cars_available" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                                  </div>
+                                                </div>
+                                                <input type="hidden" name="task" value="insert_car">
+                                                <div class="form-group row">
+                                                  <div class="offset-4 col-8">
+                                                    <button  name="submit" type="submit" class="btn btn-primary">Add Car</button>
+                                                  </div>
+                                                </div>
+                                              </form>
+                                            </div>
+                                          </div>
+
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+
+                                  <div>
+                                    <table id="outer_table">
+                                      <tr>
+                                        <td>
+                                          <p style="text-align: center;color: red;font-size: 200%;padding: 10px"><u>Booking Table</u></p>
+
+                                          <div id="display_booking" class="w3-container city5">
+                                            <table class="w3-table-all" id="login_table">
+                                              <tr>
+                                                <div class="w3-bar w3-black">
+                                                  <button class="w3-bar-item w3-button" onclick="openCity('display_booking'.'city5')">Display</button>
+                                                  <button class="w3-bar-item w3-button" onclick="openCity('insert_booking','city5')">Add</button>
+                                                </div>
+                                              </tr>
+                                              <tr class="w3-red">
+                                                <th>Booking_id</th>
+                                                <th>Type</th>
+                                                <th>Flight_id</th>
+                                                <th>Hotel_id</th>
+                                                <th>Payments_id</th>
+                                                <th>Booking_date</th>
+                                                <th>Travel_date</th>
+                                                <th>Customer_id</th>
+                                                <th>Source</th>
+                                                <th>Destination</th>
+                                                <th>End_date</th>
+                                                <th>Booking_price</th>
+                                                <th>Remove</th>
+                                              </tr>
+                                              <% for(var i=0;i<result[4].length;i++){ %>
+                                              <tr>
+                                                <td>
+                                                  <%=result[4][i].booking_id%>
+                                                </td>
+                                                <td>
+                                                  <%=result[4][i].booking_type%>
+                                                </td>
+                                                <td>
+                                                  <%=result[4][i].flight_id%>
+                                                </td>
+                                                <td>
+                                                  <%=result[4][i].hotel_id%>
+                                                </td>
+                                                <td>
+                                                  <%=result[4][i].payments_id%>
+                                                </td>
+                                                <td>
+                                                  <%=result[4][i].booking_date.toYMD()%>
+                                                </td>
+                                                <td>
+                                                  <%=result[4][i].travel_date.toYMD()%>
+                                                </td>
+                                                <td>
+                                                  <%=result[4][i].customer_id%>
+                                                </td>
+                                                <td>
+                                                  <%=result[4][i].booking_source%>
+                                                </td>
+                                                <td>
+                                                  <%=result[4][i].booking_destination%>
+                                                </td>
+                                                <td>
+                                                  <%=result[4][i].end_date%>
+                                                </td>
+                                                <td>
+                                                  <%=result[4][i].booking_price%>
+                                                </td>
+                                                <td><a href="?task=delete_booking&id=<%=result[4][i].booking_id%>">&#10006</a></td>
+                                              </tr>
+                                              <%}%>
+                                            </table>
+
+                                          </div>
+
+                                          <div id="insert_booking" class="w3-container city5" style="display:none">
+
+                                            <div class="w3-bar w3-black">
+                                              <button class="w3-bar-item w3-button" onclick="openCity('display_booking','city5')">Display</button>
+                                              <button class="w3-bar-item w3-button" onclick="openCity('insert_booking','city5')">Add</button>
+                                            </div>
+
+                                            <div class="col-md-9">
+                                              <div class="card">
+                                                <div class="card-body">
+                                                  <div class="row">
+                                                    <div class="col-md-12">
+                                                      <h4>Add User</h4>
+                                                      <hr>
+                                                    </div>
+                                                  </div>
+                                                  <div class="row">
+                                                    <div class="col-md-12">
+                                                      <form>
+                                                        <div class="form-group row">
+                                                          <label for="username" class="col-4 col-form-label">User Name*</label>
+                                                          <div class="col-8">
+                                                            <input id="name" name="name" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                                          </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                          <label for="name" class="col-4 col-form-label">Name</label>
+                                                          <div class="col-8">
+                                                            <input id="name" name="name" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                                          </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                          <label for="mobile" class="col-4 col-form-label">Mobile</label>
+                                                          <div class="col-8">
+                                                            <input id="name" name="name" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                                          </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                          <label for="email" class="col-4 col-form-label">Email</label>
+                                                          <div class="col-8">
+                                                            <input id="name" name="name" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                                          </div>
+                                                        </div>
+
+                                                        <div class="form-group row">
+                                                          <label for="password" class="col-4 col-form-label">Password</label>
+                                                          <div class="col-8">
+                                                            <input id="name" name="name" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                                          </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                          <label for="dob" class="col-4 col-form-label">DOB</label>
+                                                          <div class="col-8">
+                                                            <input id="name" name="name" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                                          </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                          <label for="address" class="col-4 col-form-label">Address</label>
+                                                          <div class="col-8">
+                                                            <input id="name" name="name" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                                          </div>
+                                                        </div>
+                                                        <input type="hidden" name="task" value="insert_customer">
+                                                        <div class="form-group row">
+                                                          <div class="offset-4 col-8">
+                                                            <button name="submit" value="update_profile" type="submit" class="btn btn-primary">Add User</button>
+                                                          </div>
+                                                        </div>
+                                                      </form>
+                                                    </div>
+                                                  </div>
+
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          <div>
+                                            <table id="outer_table">
+                                              <tr>
+                                                <td>
+                                                  <p style="text-align: center;color: red;font-size: 200%;padding: 10px"><u>Payments Table</u></p>
+
+                                                  <div id="display_payments" class="w3-container city6">
+                                                    <table class="w3-table-all" id="login_table">
+                                                      <tr>
+                                                        <div class="w3-bar w3-black">
+                                                          <button class="w3-bar-item w3-button" onclick="openCity('display_payments'.'city6')">Display</button>
+                                                          <button class="w3-bar-item w3-button" onclick="openCity('insert_payments','city6')">Add</button>
+                                                        </div>
+                                                      </tr>
+                                                      <tr class="w3-red">
+                                                        <th>Payment_id</th>
+                                                        <th>Payment_date</th>
+                                                        <th>Amount</th>
+                                                        <th>Payment_for</th>
+                                                        <th>Customer_id</th>
+                                                        <th>Booking_id</th>
+                                                        <th>Remove</th>
+                                                      </tr>
+                                                      <% for(var i=0;i<result[5].length;i++){ %>
+                                                      <tr>
+                                                        <td>
+                                                          <%=result[5][i].payments_id%>
+                                                        </td>
+                                                        <td>
+                                                          <%=result[5][i].payments_date.toYMD()%>
+                                                        </td>
+                                                        <td>
+                                                          <%=result[5][i].payments_amount%>
+                                                        </td>
+                                                        <td>
+                                                          <%=result[5][i].payments_for%>
+                                                        </td>
+                                                        <td>
+                                                          <%=result[5][i].customer_id%>
+                                                        </td>
+                                                        <td>
+                                                          <%=result[5][i].booking_id%>
+                                                        </td>
+                                                        <td><a href="?task=delete_payments&id=<%=result[5][i].payments_id%>">&#10006</a></td>
+                                                      </tr>
+                                                      <%}%>
+                                                    </table>
+
+                                                  </div>
+
+                                                  <div id="insert_payments" class="w3-container city6" style="display:none">
+
+                                                    <div class="w3-bar w3-black">
+                                                      <button class="w3-bar-item w3-button" onclick="openCity('display_payments','city6')">Display</button>
+                                                      <button class="w3-bar-item w3-button" onclick="openCity('insert_payments','city6')">Add</button>
+                                                    </div>
+
+                                                    <div class="col-md-9">
+                                                      <div class="card">
+                                                        <div class="card-body">
+                                                          <div class="row">
+                                                            <div class="col-md-12">
+                                                              <h4>Add User</h4>
+                                                              <hr>
+                                                            </div>
+                                                          </div>
+                                                          <div class="row">
+                                                            <div class="col-md-12">
+                                                              <form>
+                                                                <div class="form-group row">
+                                                                  <label for="username" class="col-4 col-form-label">User Name*</label>
+                                                                  <div class="col-8">
+                                                                    <input id="name" name="name" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                                                  </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                  <label for="name" class="col-4 col-form-label">Name</label>
+                                                                  <div class="col-8">
+                                                                    <input id="name" name="name" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                                                  </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                  <label for="mobile" class="col-4 col-form-label">Mobile</label>
+                                                                  <div class="col-8">
+                                                                    <input id="name" name="name" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                                                  </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                  <label for="email" class="col-4 col-form-label">Email</label>
+                                                                  <div class="col-8">
+                                                                    <input id="name" name="name" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                                                  </div>
+                                                                </div>
+
+                                                                <div class="form-group row">
+                                                                  <label for="password" class="col-4 col-form-label">Password</label>
+                                                                  <div class="col-8">
+                                                                    <input id="name" name="name" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                                                  </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                  <label for="dob" class="col-4 col-form-label">DOB</label>
+                                                                  <div class="col-8">
+                                                                    <input id="name" name="name" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                                                  </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                  <label for="address" class="col-4 col-form-label">Address</label>
+                                                                  <div class="col-8">
+                                                                    <input id="name" name="name" placeholder="<%=result[0].customer_name%>" class="form-control here" type="text" required="required">
+                                                                  </div>
+                                                                </div>
+                                                                <input type="hidden" name="task" value="insert_customer">
+                                                                <div class="form-group row">
+                                                                  <div class="offset-4 col-8">
+                                                                    <button name="submit" value="update_profile" type="submit" class="btn btn-primary">Add User</button>
+                                                                  </div>
+                                                                </div>
+                                                              </form>
+                                                            </div>
+                                                          </div>
+
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+
+                                                  <div class="w3-container">
+                                                    <p style="text-align: center;color: red;font-size: 200%;padding: 10px"><u>Feedback Table</u></p>
+
+                                                    <table class="w3-table-all">
+                                                      <tr class="w3-red">
+                                                        <th>Name</th>
+                                                        <th>Email</th>
+                                                        <th>Subject</th>
+                                                        <th>Message</th>
+                                                        <th>Remove</th>
+                                                      </tr>
+                                                      <% for(var i=0;i<result[6].length;i++){ %>
+                                                      <tr>
+                                                        <td>
+                                                          <%=result[6][i].name%>
+                                                        </td>
+                                                        <td>
+                                                          <%=result[6][i].email%>
+                                                        </td>
+                                                        <td>
+                                                          <%=result[6][i].subject%>
+                                                        </td>
+                                                        <td>
+                                                          <%=result[6][i].message%>
+                                                        </td>
+                                                        <td><a href="?task=delete_feedback&email=<%=result[6][i].email%>">&#10006</a></td>
+                                                      </tr>
+                                                      <%}%>
+                                                    </table>
+                                                  </div>
+                                                  <%}%>
+
+</body>
+<script>
+  function openCity(cityName, city) {
+    var i;
+    var x = document.getElementsByClassName(city);
+    for (i = 0; i < x.length; i++) {
+      x[i].style.display = "none";
+    }
+    document.getElementById(cityName).style.display = "block";
+  }
+</script>
+
+</html>
